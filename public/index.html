@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-scissior</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <style>
+        body {
+            background-image: url('bg2.webp');
+            background-size: cover;
+            background-position: center;
+            overflow-y: hidden;
+        }
+        
+        .choice img {
+            width: 64px;
+            height: 64px;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+        .choice img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center mb-36 justify-center ">
+    <div class="backdrop-blur-sm shadow-lg rounded-lg p-8 max-w-md text-center relative z-10">
+        <h1 class="text-2xl font-bold mb-6 text-white">Rock Paper Scissors</h1>
+
+        <div class="flex justify-around mb-6">
+            <div id="rock" class="choice">
+                <img src="rock-emoji.png" alt="Rock">
+            </div>
+            <div id="paper" class="choice">
+                <img src="newspaper-emoji.png" alt="Paper">
+            </div>
+            <div id="scissors" class="choice">
+                <img src="scissors-emoji.png" alt="Scissors">
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <p id="result" class="text-lg font-semibold text-white">Choose an option to start the game!</p>
+        </div>
+
+        <div class="text-sm text-gray-500 mb-4 flex flex-col">
+            <p class="text-white">Your Choice: <span id="user-choice">-</span></p>
+            <p class="text-white">Computer's Choice: <span id="computer-choice">-</span></p>
+        </div>
+
+        <div class="text-sm text-white flex justify-between">
+            <p class="bg-black p-2">Player Wins:   <span id="player-wins">0</span></p>
+            <p class="bg-black p-2">Computer Wins:   <span id="computer-wins">0</span></p>
+        </div>
+        <p class="underline text-white">Total Games: <span id="total-games">0</span></p>
+
+    </div>
+
+    <script>
+        const choices = ['rock', 'paper', 'scissors'];
+        const resultDisplay = document.getElementById('result');
+        const userChoiceDisplay = document.getElementById('user-choice');
+        const computerChoiceDisplay = document.getElementById('computer-choice');
+        const playerWinsDisplay = document.getElementById('player-wins');
+        const computerWinsDisplay = document.getElementById('computer-wins');
+        const totalGamesDisplay = document.getElementById('total-games');
+
+        let playerWins = 0;
+        let computerWins = 0;
+        let totalGames = 0;
+
+        document.querySelectorAll('.choice').forEach(choice => {
+            choice.addEventListener('click', () => {
+                const userChoice = choice.id;
+                const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+                userChoiceDisplay.textContent = userChoice;
+                computerChoiceDisplay.textContent = computerChoice;
+
+                const result = determineWinner(userChoice, computerChoice);
+                resultDisplay.textContent = result;
+
+                totalGames++;
+                if (result === "You win!") {
+                    playerWins++;
+                } else if (result === "You lose!") {
+                    computerWins++;
+                }
+
+                playerWinsDisplay.textContent = playerWins;
+                computerWinsDisplay.textContent = computerWins;
+                totalGamesDisplay.textContent = totalGames;
+            });
+        });
+
+        function determineWinner(user, computer) {
+            if (user === computer) {
+                return "It's a tie!";
+            }
+            if (
+                (user === 'rock' && computer === 'scissors') ||
+                (user === 'scissors' && computer === 'paper') ||
+                (user === 'paper' && computer === 'rock')
+            ) {
+                return "You win!";
+            }
+            return "You lose!";
+        }
+    </script>    
+</body>
+</html>
